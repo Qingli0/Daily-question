@@ -25,4 +25,12 @@ public class ZuHe {
             path.remove(path.size() - 1);
         }
     }
+    //回溯递归可以优化对其进行剪枝
+//    for(int i = startIndex; i <= n - (k - path.size()) + 1; i ++){
+//        path.add(i);
+//        //递归
+//        backtracking(n,k,path,result,i + 1);
+//        //回溯
+//        path.remove(path.size() - 1);
+//    }
 }
