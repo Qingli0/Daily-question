@@ -6,10 +6,9 @@ import java.util.List;
 //回溯章
 //组合总和Ⅲ
 public class ZuHeZongHe {
-      static List<List<Integer>> result = new ArrayList<>();
-      static List<Integer> path = new ArrayList<>();
+    private static List<List<Integer>> result = new ArrayList<>();
+    private static List<Integer> path = new ArrayList<>();
     public static List<List<Integer>> combinationSum3(int k, int n) {
-
         backtracking(k,n,path,result,0,1);
         return result;
     }
