@@ -9,7 +9,8 @@ import java.util.List;
 // 给你一个无重复的整数数组，和目标整数，找到一组candidates中可以使数字和为目标target的所有不同组合。
 
 /**
- * 这道题没有说要去重，也就是candidates中的元素是可以重复使用的，所以，不需要startindex
+ * 这道题没有说要去重，也就是candidates中的元素是可以重复使用的，所以，不需要startindex,但是需要一个inx
+ * inx 表示下层可以从这一层开始取，可以取重复的元素
  */
 public class ZuHeZongHe {
     public static List<List<Integer>> combinationSum(int[] candidates, int target) {
