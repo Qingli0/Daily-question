@@ -12,7 +12,7 @@ import java.util.List;
  * 这里分割之后需要添加 . 而且分成四个部分 终止条件就不是 startIndex >= s.length()
  * 终止条件就是 pointNum ==3
  */
-public class FuYanIPDiZhi {
+public class FuYuanIPDiZhi {
     public static List<String> restoreIpAddresses(String s) {
         List<String> result = new ArrayList<>();
         StringBuilder builder = new StringBuilder(s);
