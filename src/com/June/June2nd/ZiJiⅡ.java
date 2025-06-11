@@ -19,7 +19,7 @@ public class ZiJiⅡ {
             return;
         }
         for(int i = startIndex; i < nums.length; i ++){
-            //这条去重是很重要的
+            //这条去重是很重要
             if (i > startIndex && nums[i] == nums[i - 1]) {
                 continue;
             }
