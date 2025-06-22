@@ -19,7 +19,7 @@ public class ZuiDaZiShuZuHe {
         int result = Integer.MIN_VALUE;
         int count = 0;
         //贪心算法的思路就是，不断的累加，当累加的count < 0 那么从nums[i + 1] 开始重新累加
-        // 而最大的count 已经记录在了result中也就是说result 记录的是整个遍历过程中最大的子序列的和
+        //而最大的count 已经记录在了result中也就是说result 记录的是整个遍历过程中最大的子序列的和
         for(int i = 0; i < nums.length; i ++){
             count += nums[i];
             if(count > result) result = count;
