@@ -5,9 +5,9 @@ package com.July.July25th;
 /**
  * 这道题和之前的购买股票不同的地方就是多了一个冷冻期，这就多了一个状态
  * dp[i][0]  买入的状态，持有股票的状态
- * dp[i][1]  没有股票的状态，也就是这个时候我账户没有股票，但是我不是冷静期,可以购入股票
+ * dp[i][1]  没有股票的状态，也就是这个时候我账户没有股票，但是我不是冷冻期,可以购入股票
  * dp[i][2]  这天卖出股票
- * dp[i][3]  冷静期
+ * dp[i][3]  冷冻期
  */
 public class ZuiJiaMaiMaiGuPiaoShiJiHanLengDongQi {
     public static int maxProfit(int[] prices) {
