@@ -21,7 +21,7 @@
 
 # virtual machine crash logs
 hs_err_pid*
-
+*.txt
 # Maven
 target/
 
