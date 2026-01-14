@@ -1,7 +1,5 @@
 package com.August;
 
-
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -2425,7 +2423,39 @@ public class test {
         }
         return l1;
     }
-
+    //随机链表的复制
+    public static com.August.August3rd.Node copyRandomList(com.August.August3rd.Node head){
+        //这道题next指针倒是好写，就是这个random指针不太好找。
+        //所以这道题采用的是在原node节点上面改造
+        if(head == null) return null;
+        com.August.August3rd.Node cur = head;
+        while(cur != null){
+            com.August.August3rd.Node next = cur.next;
+            com.August.August3rd.Node copyNode = new com.August.August3rd.Node(cur.val);
+            copyNode.next = next;
+            cur = next;
+        }
+        //步骤二设置random指针
+        cur = head;
+        while (cur != null) {
+            if(cur.random != null){
+                cur.next.random = cur.random.next;
+            }
+            cur = cur.next.next;
+        }
+        //步骤三拆分链表
+        com.August.August3rd.Node dummy = new com.August.August3rd.Node(0);
+        com.August.August3rd.Node copyHead = dummy;
+        cur = head;
+        while (cur != null) {
+            com.August.August3rd.Node next = cur.next.next;
+            copyHead.next = cur.next;
+            copyHead = copyHead.next;
+            cur.next = next;
+            cur = next;
+        }
+        return dummy.next;
+    }
     public static void main(String[] args) {
         ListNode listNode1 = new ListNode(9);
         ListNode listNode2 = new ListNode(9);
