@@ -2279,6 +2279,7 @@ public class test {
         return root.val + Math.max(left, right);
 
     }
+    //环形链表
     public static boolean isPalindrome(ListNode head) {
         if(head.next == null) return true;
         ListNode slow = head,fast = head;
@@ -2315,6 +2316,7 @@ public class test {
         }
         return false;
     }
+    //合并两个有序的链表
     public static ListNode mergeTwoLists(ListNode list1, ListNode list2) {
         if(list1 == null) return list2;
         if(list2 == null) return list1;
@@ -2334,16 +2336,18 @@ public class test {
                 newnode.next = null;
             }
         }
-        while(p != null){
-            newnode.next = p;
-            break;
-        }
-        while(q != null){
-            newnode.next = q;
-            break;
-        }
+        newnode.next = p != null ? p : q;
+//        while(p != null){
+//            newnode.next = p;
+//            break;
+//        }
+//        while(q != null){
+//            newnode.next = q;
+//            break;
+//        }
         return list3.next;
     }
+    //环形链表Ⅱ
     public static ListNode detectCycle(ListNode head) {
         if(head == null || head.next == null) return null;
         ListNode slow = head,fast = head;
@@ -2363,6 +2367,7 @@ public class test {
         }
         return slow;
     }
+    //两数相加
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         //进位
         int flag = 0;
@@ -2454,6 +2459,72 @@ public class test {
             cur.next = next;
             cur = next;
         }
+        return dummy.next;
+    }
+    //排序链表 进阶版-使用自底向上的归并排序
+    public static ListNode sortList(ListNode head){
+        //1.做判空处理
+        if(head == null || head.next == null) return head;
+        ListNode cur = head;
+        int length = 0;
+        //2.统计链表的个数
+        while(cur != null){
+            length++;
+            cur = cur.next;
+        }
+        ListNode dummy = new ListNode();
+        //将带头结点的链表连上头结点
+        dummy.next = head;
+        //3.自底向上的归并排序
+        for(int step = 1; step < length; step*=2){
+            ListNode prev = dummy;
+            //每次step更新，cur都要从head开始
+            cur = dummy.next;
+            //归并一次
+            while (cur != null){
+                ListNode left = cur;
+                //split返回的是分割链表的后一个，并且把链表断开了
+                //比如 1 -> 2 -> 3 -> 4 分割 1 -> 2 , 3 -> 4 返回的是3
+                ListNode right = split(left,step);
+                cur = split(right,step);
+                prev.next = merge(left,right);
+                while (prev.next != null){
+                    prev = prev.next;
+                }
+            }
+        }
+        return dummy.next;
+    }
+    //分割
+    public static ListNode split(ListNode head,int n){
+        while(n > 1 && head != null){
+            head = head.next;
+            n --;
+        }
+        //如果不是因为 步数n而跳出循环，说明链表的大小不足以支撑 n 步数，直接返沪null
+        if(head == null) return null;
+        ListNode second = head.next;
+        //将前面分割好的和后面断开
+        head.next = null;
+        return second;
+    }
+    //合并
+    public static ListNode merge(ListNode l1,ListNode l2){
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        ListNode dummy = new ListNode();
+        ListNode cur = dummy;
+        while(l1 != null && l2 != null){
+            if(l1.val <= l2.val){
+                cur.next = l1;
+                l1 = l1.next;
+            }else {
+                cur.next = l2;
+                l2 = l2.next;
+            }
+            cur = cur.next;
+        }
+        cur.next = l1 == null ? l2 : l1;
         return dummy.next;
     }
     public static void main(String[] args) {
