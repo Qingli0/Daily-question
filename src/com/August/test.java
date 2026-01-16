@@ -2528,30 +2528,94 @@ public class test {
         return dummy.next;
     }
     public static void main(String[] args) {
-        ListNode listNode1 = new ListNode(9);
-        ListNode listNode2 = new ListNode(9);
-        ListNode listNode3 = new ListNode(9);
-        ListNode listNode7 = new ListNode(9);
-        ListNode listNode8 = new ListNode(9);
-        ListNode listNode9 = new ListNode(9);
-        ListNode listNode10 = new ListNode(9);
-        listNode1.next = listNode2;
-        listNode2.next = listNode3;
-        listNode3.next = listNode7;
-        listNode7.next = listNode8;
-        listNode8.next = listNode9;
-        listNode9.next = listNode10;
-        ListNode listNode4 = new ListNode(9);
-        ListNode listNode5 = new ListNode(9);
-        ListNode listNode6 = new ListNode(9);
-        ListNode listNode11 = new ListNode(9);
-        listNode4.next = listNode5;
-        listNode5.next = listNode6;
-        listNode6.next = listNode11;
-        System.out.println(addTwoNumbers(listNode1,listNode4));
-        System.out.println();
+        LRUCache cache = new LRUCache(1);
+        cache.put(2,1);
+        cache.get(2);
     }
 
+}
+//LRU 缓存
+//如果要实现容量满了把最前面没有使用的删除,用一个双向链表
+@SuppressWarnings("all")
+class LRUCache{
+    private int capacity;
+    private Map<Integer,LinkNode> map;
+    private LinkNode head, tail;
+    public LRUCache(int capacity){
+        this.capacity = capacity;
+        map = new HashMap<>();
+        head = new LinkNode();
+        tail = new LinkNode();
+        head.next = tail;
+        tail.prev = head;
+    }
+    //1.删除节点
+    public boolean remove(LinkNode node){
+        //如果已经是链表头了，就不用删除了
+        if(node.prev == head) return false;
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+        return true;
+    }
+    //2.将节点添加到头结点
+    public void moveToHead(LinkNode node){
+        boolean isSuccess = remove(node);
+        if(isSuccess){
+            //确实在中间将Node节点和链表断开了，将这个node节点插入到头结点
+            addToHead(node);
+        }
+    }
+    //3.将节点插入到头结点 (最近使用)
+    public void addToHead(LinkNode node){
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+        node.prev = head;
+    }
+    //4.当容量超过了，就删除为尾节点
+    public LinkNode removeTail(){
+        LinkNode node = tail.prev;
+        remove(node);
+        return node;
+    }
+    public int get(int key){
+        LinkNode result = map.getOrDefault(key, null);
+        if (result != null){
+            //说明map中有这个key，则要把该节点移到链表头
+            LinkNode node = map.get(result.key);
+            moveToHead(node);
+        }
+        return result == null ? -1 : result.val;
+    }
+    public void put(int key, int value){
+        //先看看里面有没有key
+        LinkNode node = map.get(key);
+        if(node == null){
+            //说明里面没有key，要新建一个node
+            if(map.size() >= capacity){//满了
+                LinkNode deleteNode = removeTail();
+                map.remove(deleteNode.key);
+            }
+            LinkNode newNode = new LinkNode(key, value);
+            addToHead(newNode);
+            map.put(key, newNode);
+        }else {//原本就有，那就更新就好了
+            node.val = value;
+            moveToHead(node);
+        }
+    }
+}
+@SuppressWarnings("all")
+class LinkNode{
+    int key;
+    int val;
+    LinkNode next;
+    LinkNode prev;
+    LinkNode(int key, int val){
+        this.key = key;
+        this.val = val;
+    }
+    LinkNode(){}
 }
 @SuppressWarnings("all")
 class MyLinkedList {
