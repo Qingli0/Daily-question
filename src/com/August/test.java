@@ -2573,17 +2573,83 @@ public class test {
         temp.next = cur;
         return head;
     }
+    //合并K个升序链表
+    public static ListNode mergeKLists(ListNode[] lists){
+        if(lists == null || lists.length == 0) return null;
+        int length = lists.length;
+        return merge(lists,0,length - 1);
+
+    }
+    public static ListNode merge(ListNode[] lists,int l,int r){
+        if(l == r) return lists[l];
+        int mid = (l + r) / 2;
+        ListNode left = merge(lists,l,mid);
+        ListNode right = merge(lists,mid + 1,r);
+        return mergeTwoList(left,right);
+    }
+    public static ListNode mergeTwoList(ListNode l1,ListNode l2){
+         if(l1 == null) return l2;
+         if(l2 == null) return l1;
+         ListNode dummy = new ListNode();
+         ListNode cur = dummy;
+         while(l1 != null && l2 != null){
+             if(l1.val <= l2.val){
+                 cur.next = l1;
+                 l1 = l1.next;
+             }else {
+                 cur.next = l2;
+                 l2 = l2.next;
+             }
+             cur = cur.next;
+         }
+         cur.next = l1 == null ? l2 : l1;
+         return dummy.next;
+    }
+    //合并K个升序链表解法二:采用小根堆，将数组中每一个链表的头结点放入小根堆，注意是头结点，不是整个链表
+    public static ListNode mergeKLists2(ListNode[] lists){
+        if(lists == null || lists.length == 0) return null;
+        Queue<ListNode> priorityQueue = new PriorityQueue<>();
+        for (ListNode list : lists) {
+            //将头结点加入优先队列
+            if(list != null) priorityQueue.add(list);
+        }
+        ListNode dummy = new ListNode();
+        ListNode cur = dummy;
+        while(!priorityQueue.isEmpty()){
+            ListNode poll = priorityQueue.poll();
+            cur.next = poll;
+            cur = cur.next;
+            //如果这个弹出来的头结点的链表没有结束，那么将它的后一个元素作为头结点加入优先队列
+            if(poll.next != null){
+                priorityQueue.offer(poll.next);
+            }
+        }
+        return dummy.next;
+    }
     public static void main(String[] args) {
+        ListNode[] lists = new ListNode[2];
         ListNode listNode1 = new ListNode(1);
         ListNode listNode2 = new ListNode(2);
         ListNode listNode3 = new ListNode(3);
         ListNode listNode4 = new ListNode(4);
         ListNode listNode5 = new ListNode(5);
+        ListNode listNode6 = new ListNode(2);
+        ListNode listNode7 = new ListNode(3);
+        ListNode listNode8 = new ListNode(4);
+        ListNode listNode9 = new ListNode(6);
+        ListNode listNode10 = new ListNode(7);
         listNode1.next = listNode2;
         listNode2.next = listNode3;
         listNode3.next = listNode4;
         listNode4.next = listNode5;
-        System.out.println(reverseKGroup(listNode1, 2));
+
+        listNode6.next = listNode7;
+        listNode7.next = listNode8;
+        listNode8.next = listNode9;
+        listNode9.next = listNode10;
+        lists[0] = listNode1;
+        lists[1] = listNode6;
+        System.out.println(mergeKLists2(lists));
     }
 
 }
