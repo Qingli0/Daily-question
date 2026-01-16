@@ -2527,10 +2527,63 @@ public class test {
         cur.next = l1 == null ? l2 : l1;
         return dummy.next;
     }
+    //K个一组翻转链表
+    public static ListNode reverseKGroup(ListNode head, int k) {
+        if(k == 1) return head;
+        ListNode cur = head;
+        int step = k;
+        int n = 0;
+        while(cur != null){
+            cur = cur.next;
+            n ++;
+        }
+        cur = head;
+        //如果 n >= k 做第一次转置
+        ListNode temp = head;
+        if(n >= k){
+            ListNode prev = null;
+            while(step > 0){
+                if(step == 1){head = cur;}
+                ListNode next = cur.next;
+                cur.next = prev;
+                prev = cur;
+                cur = next;
+                step --;
+            }
+        }
+        n -= k;
+        while(n >= k){
+            step = k;
+            ListNode prev = null;
+            ListNode temp2 = null;
+            ListNode temp3 = null;
+            while(step > 0){
+                if(step == k){temp2 = cur;}
+                if(step == 1){temp3 = cur;}
+                ListNode next = cur.next;
+                cur.next = prev;
+                prev = cur;
+                cur = next;
+                step --;
+            }
+            temp.next = temp3;
+            temp = temp2;
+            n -= k;
+        }
+        temp.next = cur;
+        return head;
+    }
     public static void main(String[] args) {
-        LRUCache cache = new LRUCache(1);
-        cache.put(2,1);
-        cache.get(2);
+        ListNode listNode1 = new ListNode(1);
+        ListNode listNode2 = new ListNode(2);
+        ListNode listNode3 = new ListNode(3);
+        ListNode listNode4 = new ListNode(4);
+        ListNode listNode5 = new ListNode(5);
+        listNode1.next = listNode2;
+        listNode2.next = listNode3;
+        listNode3.next = listNode4;
+        listNode4.next = listNode5;
+        System.out.println(reverseKGroup(listNode1, 2));
     }
 
 }
